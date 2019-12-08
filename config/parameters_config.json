@@ -5,6 +5,7 @@
 
   "fixation_point_position": [0.5, 0.5],
   "fixation_point_duration": 1000,
+  "fixation_point_tolerance": 20,
   "fixation_point_guide_radius": 50,
 
   "square_outline_color": "#FFA62B",

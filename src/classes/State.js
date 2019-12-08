@@ -4,7 +4,8 @@ export default class State {
   }
 
   init(){
-
+    this.objs = [];
+    this.create();
   }
 
   create(){
@@ -16,7 +17,12 @@ export default class State {
   }
 
   terminate(){
-
+    for(let obj of this.objs){
+      obj.remove();
+      if(obj.key) {
+        this.stage.objs[obj.key] = null;
+      }
+    }
   }
-  
+
 }

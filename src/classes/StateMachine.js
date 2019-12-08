@@ -1,5 +1,6 @@
 export default class StateMachine {
-  constructor(){
+  constructor(game){
+    this.game = game;
     this.transitions = [];
   }
 
