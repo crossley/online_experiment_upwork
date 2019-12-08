@@ -36,22 +36,24 @@ state_fixation.update = function(){
 
   if(Math.abs(mouseX - configParams["fixation_point_position"][0]) < radTolX
   && Math.abs(mouseY - configParams["fixation_point_position"][1])  < radTolY){
-    console.log("inside fixation point");
     if(this.curGuideRadius > 0){
       this.curGuideRadius -= this.game.deltaTime / this.guideDuration * this.guideRadius;
       if(this.curGuideRadius < 0)this.curGuideRadius = 0;
     } else { 
       this.game.setState("trial");
     }
+    let circX = (window.innerWidth/2 - this.circle.offsetWidth/2) * ((this.curGuideRadius / this.guideRadius)) +  (this.game.mouseX - this.curGuideRadius) * (1 - this.curGuideRadius / this.guideRadius);
+    let circY = (window.innerHeight/2 - this.circle.offsetHeight/2) * ((this.curGuideRadius / this.guideRadius)) +  (this.game.mouseY - this.curGuideRadius) * (1 - this.curGuideRadius / this.guideRadius);
+    this.circle.style.left = circX.toString() + "px";
+    this.circle.style.top =  circY.toString() + "px";
   } else {
-    console.log("outside fixation point");
     this.curGuideRadius = this.guideRadius;
+    this.circle.style.left = (window.innerWidth/2 - this.curGuideRadius).toString() + "px";
+    this.circle.style.top = (window.innerHeight/2 - this.curGuideRadius).toString() + "px";
   }
   
   this.circle.style.width = (this.curGuideRadius * 2).toString() + "px";
   this.circle.style.height = (this.curGuideRadius * 2).toString() + "px";
-  this.circle.style.left = (window.innerWidth/2 - this.circle.offsetWidth/2).toString() + "px";
-  this.circle.style.top = (window.innerHeight/2 - this.circle.offsetHeight/2).toString() + "px";
 };
 
 state_fixation.terminate = function(){
