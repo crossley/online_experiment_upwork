@@ -1,0 +1,46 @@
+{
+  "config_info": {
+
+  },
+
+  "environment_info": {
+    "screen_width": 1367,
+    "screen_height": 768,
+    "navigator_userAgent": "Win32",
+    "navigator_platform": "Win32",
+    "navigator_language": "en"
+  },
+
+  "events": [
+    {
+      "type": "session_begin",
+      "timestamp": 1575800930876
+    },
+    {
+      "type": "game_begin",
+      "timestamp": 1575800930876
+    },
+    {
+      "type": "trial_begin",
+      "timestamp": 1575800930876
+    },
+    {
+      "type": "trial_end",
+      "status": "correct",
+      "timestamp": 1575800930876
+    }
+  ],
+
+  "actions": [
+    {
+      "type": "mouse_click",
+      "button": "left",
+      "timestamp": 1575800930876
+    },
+    {
+      "type": "keyboard_press",
+      "key": "f",
+      "timestamp": 1575800930876
+    }
+  ]
+}

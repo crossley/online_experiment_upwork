@@ -1,0 +1,18 @@
+{
+  "background_color": "#FFFFFF",
+  "mouse_color": "#FF0000",
+  "mouse_size": "20",
+
+  "fixation_point_position": [0.5, 0.5],
+  "fixation_point_duration": 1000,
+  "fixation_point_guide_radius": 50,
+
+  "square_outline_color": "#FFA62B",
+  "action_keys": ["f", "j"],
+  "delay_before_feedback": 500,
+
+  "mouse_position_capture_rate": "15",
+  "stimuli_position_coordinate_space": [0, 1],
+  "trials_per_session": 5
+
+}
