@@ -1,17 +1,20 @@
 import State from "../classes/State";
+import trialsData from "../../config/trial_config.json";
 
 const state_loading = new State();
 
 state_loading.create = function(){
   
-  this.game.loader.addImage("0", "../img/0.png");
-  this.game.loader.addImage("1", "../img/1.png");
-  this.game.loader.addImage("2", "../img/2.png");
+  this.trialData = trialsData[this.game.curTrialInd];
+  for(var i = 0; i<this.trialData["stim_id"].length; i++){
+    const stim_id = this.trialData["stim_id"][i];
+    if(!this.game.loader.cache[stim_id.toString()]){
+      this.game.loader.addImage(stim_id.toString(), `../img/${stim_id.toString()}.png`);
+    }
+  }
 
   this.game.loader.start();
   this.game.loader.onFinish = this.onLoadFinish;
-
-  this.game.debugLbl = this.game.addLabel(window.innerWidth/2, 50, "loading");
 };
 
 state_loading.update = function(){

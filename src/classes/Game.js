@@ -34,7 +34,15 @@ export default class Game {
     this.lastTime = Date.now();
     this.deltaTime = 0;
     this.resizeHandle();
+
+    this.init();
     window.requestAnimationFrame(() => this.tick());
+  }
+
+  init(){
+    this.curTrialInd = 0;
+
+    this.debugLbl = this.addLabel(window.innerWidth/2, 50, "loading");
   }
 
   onMouseMove(e){
@@ -104,8 +112,8 @@ export default class Game {
     }
     img.key = key;
     img.style.position = "absolute";
-    img.style.left = x.toString() + "px";
-    img.style.top = y.toString() + "px";
+    img.style.left = (x - img.offsetWidth / 2).toString() + "px";
+    img.style.top = (y - img.offsetHeight / 2).toString() + "px";
     this.stage.appendChild(img);
 
     return img;

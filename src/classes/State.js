@@ -20,7 +20,7 @@ export default class State {
     for(let obj of this.objs){
       obj.remove();
       if(obj.key) {
-        this.stage.objs[obj.key] = null;
+        this.game.stage.objs[obj.key] = null;
       }
     }
   }
