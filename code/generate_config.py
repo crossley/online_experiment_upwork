@@ -11,7 +11,9 @@ n_targets = 1
 n_trials = 150
 n = 5
 n_positions = 5
-n_reps = n_trials // (2 * n)
+
+n_stim_per_rep = (2 * n)
+n_reps = n_trials // n_stim_per_rep
 
 x1 = -15 * np.ones(n)
 x2 = 15 * np.ones(n)
@@ -78,11 +80,6 @@ for i in range(x.shape[0]):
     stim_key['contrast'].append(1.0)
 stim_key = pd.DataFrame(stim_key)
 
-n_targets = 1
-n_stim_per_rep = 10
-n_trials = 150
-n_reps = n_trials // n_stim_per_rep
-
 x = np.concatenate((x1_rot_t, x2_rot_t))
 y = np.concatenate((y1_rot_t, y2_rot_t))
 cat = np.concatenate((np.ones(n), 2 * np.ones(n)))
@@ -100,10 +97,11 @@ stim_key[stim_key['cat'] != -1]['id'].values
 stim_id = stim_key[stim_key['cat'] != -1]['id'].values
 distract_id = stim_key[stim_key['cat'] == -1]['id'].values
 
-trial_config = {'stim_id': [], 'position': []}
+trial_config = {'stim_id': [], 'target': [], 'cat': [], 'position': []}
 for i in range(n_targets):
     for j in range(n_reps):
         np.random.shuffle(stim_id)
+        cat = stim_key['cat'][stim_id].values
 
         for k in range(n_stim_per_rep):
             np.random.shuffle(distract_id)
@@ -111,8 +109,12 @@ for i in range(n_targets):
             trial_config['stim_id'].append(np.append(stim_id[k], distract_id))
             trial_config['position'].append([(circle_x[i], circle_y[i])
                                              for i in position])
+            trial_config['target'].append(
+                np.append(1, np.zeros(distract_id.shape[0], dtype=np.int8)))
+            trial_config['cat'].append(cat[k])
 
 trial_config = pd.DataFrame(trial_config)
+trial_config['trial'] = trial_config.index.values
 
 stim_key.to_json('../config/stim_key.json', orient='records')
 trial_config.to_json('../config/trial_config.json', orient='records')
