@@ -88,6 +88,12 @@ y = np.concatenate((y1_rot_t, y2_rot_t))
 cat = np.concatenate((np.ones(n), 2 * np.ones(n)))
 
 position = np.arange(0, n_positions, 1)
+r = 1.0
+theta = np.linspace(0 + np.pi / 6, 2 * np.pi + np.pi / 6, 6)[0:5]
+circle_x = r * np.cos(theta)
+circle_y = r * np.sin(theta)
+# plt.plot(circle_x, circle_y, '.')
+# plt.show()
 
 stim_key[stim_key['cat'] == -1]['id']
 stim_key[stim_key['cat'] != -1]['id'].values
@@ -103,7 +109,8 @@ for i in range(n_targets):
             np.random.shuffle(distract_id)
             np.random.shuffle(position)
             trial_config['stim_id'].append(np.append(stim_id[k], distract_id))
-            trial_config['position'].append(position)
+            trial_config['position'].append([(circle_x[i], circle_y[i])
+                                             for i in position])
 
 trial_config = pd.DataFrame(trial_config)
 
