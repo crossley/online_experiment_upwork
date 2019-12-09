@@ -46,6 +46,9 @@ export default class Game {
     this.debugLbl = this.addLabel(window.innerWidth/2, 50, "loading");
     
     this.loader.addImage("arrow", "../img/arrow.png");
+    this.loader.addImage("check", "../img/check.png");
+    this.loader.addImage("cross", "../img/cross.png");
+    this.loader.addImage("keyboardBtn", "../img/keyboardBtn.png");
     this.loader.start();
     this.loader.onFinish = this.onLoadFinish;
   }
