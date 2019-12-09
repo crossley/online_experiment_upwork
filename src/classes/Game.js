@@ -27,8 +27,9 @@ export default class Game {
     this.curStateKey = null;
     this.curState = null;
 
-    this.mouseX = 0;
-    this.mouseY = 0;
+    this.mouseX = undefined;
+    this.mouseY = undefined;
+    this.stage.addEventListener('mouseenter', this.onMouseMove.bind(this));
     this.stage.addEventListener('mousemove', this.onMouseMove.bind(this));
 
     this.lastTime = Date.now();
@@ -43,9 +44,18 @@ export default class Game {
     this.curTrialInd = 0;
 
     this.debugLbl = this.addLabel(window.innerWidth/2, 50, "loading");
+    
+    this.loader.addImage("arrow", "../img/arrow.png");
+    this.loader.start();
+    this.loader.onFinish = this.onLoadFinish;
+  }
+
+  onLoadFinish(){
+    window.game.setState("loading");
   }
 
   onMouseMove(e){
+    console.log("mouse move");
     this.mouseX = e.clientX;
     this.mouseY = e.clientY;
   }
@@ -103,17 +113,14 @@ export default class Game {
 
   addImage(x, y, key){
     let img;
-    if(!this.stage.objs[key]){
-      img = this.stage.appendChild(this.loader.cache[key]);
-      this.stage.objs[key] = img;
-    } else {
-      img = this.stage.objs[key].cloneNode();
-      this.stage.appendChild(img);
-    }
+    img = document.createElement("div");
     img.key = key;
+    img.style.backgroundImage = `url("${this.loader.cache[key].src}")`;
+    img.style.width = this.loader.cache[key].width.toString() + "px";
+    img.style.height = this.loader.cache[key].height.toString() + "px";
     img.style.position = "absolute";
-    img.style.left = (x - img.offsetWidth / 2).toString() + "px";
-    img.style.top = (y - img.offsetHeight / 2).toString() + "px";
+    img.style.left = (x - parseInt(img.style.width) / 2).toString() + "px";
+    img.style.top = (y -  parseInt(img.style.height) / 2).toString() + "px";
     this.stage.appendChild(img);
 
     return img;
