@@ -1,6 +1,7 @@
 {
-  "background_color": "#FFFFFF",
-  "mouse_color": "#FF0000",
+  "background_color": "lightgrey",
+  "mouse_border": "3px solid rgba(100,0,0,0.8)",
+  "mouse_color": "rgba(230,0,0,0.8)",
   "mouse_size": "20",
 
   "fixation_point_position": [0.5, 0.5],
@@ -9,10 +10,14 @@
 
   "square_outline_color": "#FFA62B",
   "action_keys": ["f", "j"],
-  "delay_before_feedback": 500,
+  "move_stimulus_to_middle": false,
+  "clear_other_stimuli": false,
 
+  "play_audio_positive_feedback": true,
+  "play_audio_negative_feedback": true,
+  "delay_before_feedback": 1,
+  "delay_after_feedback": 500,
+  
   "mouse_position_capture_rate": "15",
-  "stimuli_position_coordinate_space": [0, 1],
-  "trials_per_session": 5
-
+  "capture_mouse_position_only_when_changed": true
 }

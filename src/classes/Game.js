@@ -4,14 +4,29 @@ import state_fixation from "../states/state_fixation";
 import state_trial from "../states/state_trial";
 import state_results from "../states/state_results";
 import state_finish from "../states/state_finish";
+import configParams from "../../config/parameters_config";
 import Loader from "./Loader";
+import Logger from "./Logger";
 
 export default class Game {
   constructor(div){
     this.stateMachine = new StateMachine(this);
     this.loader = new Loader(this);
     this.stage = div || document.documentElement;
+    this.stage.style.backgroundColor = configParams["background_color"];
     this.stage.objs = [];
+    this.logger = new Logger(this);
+
+    this.cursor = document.createElement('div');
+    this.cursor.style.borderRadius = "50%";
+    this.cursor.style.position = "absolute";
+    this.cursor.style.width = (configParams.mouse_size * 2).toString() + "px";
+    this.cursor.style.height = (configParams.mouse_size * 2).toString() + "px";
+    this.cursor.style.backgroundColor = configParams.mouse_color;
+    this.cursor.style.cursor = "none";
+    this.cursor.style.pointerEvents = "none";
+    this.cursor.style.border = configParams["mouse_border"];
+    this.stage.appendChild(this.cursor);
 
     this.states = {
       "loading": state_loading,
@@ -43,7 +58,7 @@ export default class Game {
   init(){
     this.curTrialInd = 0;
 
-    this.debugLbl = this.addLabel(window.innerWidth/2, 50, "loading");
+    // this.debugLbl = this.addLabel(window.innerWidth/2, 50, "loading");
     
     this.loader.addImage("arrow", "../img/arrow.png");
     this.loader.addImage("check", "../img/check.png");
@@ -58,12 +73,16 @@ export default class Game {
   }
 
   onMouseMove(e){
-    console.log("mouse move");
     this.mouseX = e.clientX;
     this.mouseY = e.clientY;
   }
 
   tick(){
+    if(this.mouseX && this.mouseY){
+      this.cursor.style.left = this.mouseX.toString() - configParams.mouse_size + "px";
+      this.cursor.style.top = this.mouseY.toString() - configParams.mouse_size + "px";
+    }
+
     const timeNow = Date.now();
     this.deltaTime = timeNow - this.lastTime;
     this.lastTime = timeNow;
@@ -124,7 +143,7 @@ export default class Game {
     img.style.position = "absolute";
     img.style.left = (x - parseInt(img.style.width) / 2).toString() + "px";
     img.style.top = (y -  parseInt(img.style.height) / 2).toString() + "px";
-    this.stage.appendChild(img);
+    this.stage.insertBefore(img, this.cursor);
 
     return img;
   }

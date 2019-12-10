@@ -5,7 +5,7 @@ import {TweenLite, Power2, Back} from "gsap";
 const state_fixation = new State();
 
 state_fixation.create = function(){
-  this.game.debugLbl.innerText = "fixation";
+  // this.game.debugLbl.innerText = "fixation";
 
   this.pointTolerance = configParams["fixation_point_guide_radius"];
   this.guideRadius = configParams["fixation_point_guide_radius"];
@@ -26,7 +26,6 @@ state_fixation.create = function(){
   this.lblInstruct = this.game.addLabel(window.innerWidth/2, window.innerHeight + 50, "Move your cursor to the middle of the screen", 24);
   this.lblInstruct.className = "instructionsLbl";
   TweenLite.to(this.lblInstruct, 0.4, {css: {top: (window.innerHeight - 120).toString() + "px"}, ease: Power2.easeOut});
-
 
   this.reposition();
 };
