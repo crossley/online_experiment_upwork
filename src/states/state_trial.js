@@ -34,7 +34,8 @@ state_trial.create = function(){
   this.lblInstruct.className = "instructionsLbl";
   this.lblInstruct.style.left = (window.innerWidth/2 - this.lblInstruct.offsetWidth / 2).toString() + "px";
 
-  document.addEventListener("keypress", this.onKeyPress.bind(this));
+  this.boundKeyPress =  this.onKeyPress.bind(this);
+  document.addEventListener("keypress", this.boundKeyPress);
   this.reposition();
 
 };
@@ -185,6 +186,8 @@ state_trial.terminate = function(){
   this.lblInstruct.remove();
   this.btnAction1.remove();
   this.btnAction2.remove();
+  
+  document.removeEventListener("keypress", this.boundKeyPress);
 };
 
 export default state_trial;

@@ -48,7 +48,6 @@ state_fixation.update = function(){
 
   if(Math.abs(mouseX - configParams["fixation_point_position"][0]) < radTolX
   && Math.abs(mouseY - configParams["fixation_point_position"][1])  < radTolY){
-
     if(this.circResetTw) {
       this.circResetTw.pause();
       this.circResetTw.kill();

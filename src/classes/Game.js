@@ -115,6 +115,8 @@ export default class Game {
     } else {
       prevState = null;
     }
+    this.curStateKey = newStateKey;
+    this.curState = this.states[this.curStateKey];
 
     if(prevState) {
       // transitioning from current state 
@@ -129,8 +131,6 @@ export default class Game {
     } else {
       newState.init();
     }
-    this.curStateKey = newStateKey;
-    this.curState = this.states[this.curStateKey];
   }
 
   addImage(x, y, key){
