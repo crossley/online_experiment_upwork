@@ -12,12 +12,45 @@
   "action_keys": ["f", "j"],
   "move_stimulus_to_middle": false,
   "clear_other_stimuli": false,
+  "is_stimuli_space_circular": true,
+  "should_stimuli_not_exceed_screen": true,
+  "instruction_banner_position": "bottom_left",
 
   "play_audio_positive_feedback": true,
   "play_audio_negative_feedback": true,
-  "delay_before_feedback": 1,
-  "delay_after_feedback": 500,
+  "delay_before_feedback": 300,
+  "duration_of_feedback": 300,
+  "delay_after_feedback": 300,
+  "delay_before_next_trial": 300,
   
   "mouse_position_capture_rate": "15",
-  "capture_mouse_position_only_when_changed": true
+  "capture_mouse_position_only_when_changed": true,
+  
+  "no_animation_at_all": false,
+
+  "do_animate_fixation_instruction": true,
+  "do_animate_fixation_pointer": true,
+  "do_animate_cursor_appear": true,
+  "do_animate_cursor_disappear": true,
+  "do_animate_trial_instruction": true,
+  "do_animate_stimulus_choice": true,
+  "do_animate_clear_stimului": true,
+  "do_animate_move_stimulus_to_middile" : true,
+  "do_animate_feedback": true,
+
+  "tutorial": {
+    "no_tutorial": false,
+    "number_of_visual_search_practice_trials": 2,
+
+    "delay_before_highlighting_correct_image": 100,
+    "delay_before_next_image_only_example": 300, 
+    "delay_before_instruction_change": 2500,
+    
+    "do_animate_instruction": true,
+    "do_animate_stimulus_choice": true,
+    "do_animate_images_change": true,
+    "do_animate_wrong_highlight": true,
+    "do_animate_correct_highlight": true
+  }
+  
 }

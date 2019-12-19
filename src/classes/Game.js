@@ -7,9 +7,11 @@ import state_finish from "../states/state_finish";
 import configParams from "../../config/parameters_config";
 import Loader from "./Loader";
 import Logger from "./Logger";
+import state_tutorial from "../states/state_tutorial";
 
 export default class Game {
   constructor(div){
+
     this.stateMachine = new StateMachine(this);
     this.loader = new Loader(this);
     this.stage = div || document.documentElement;
@@ -30,6 +32,7 @@ export default class Game {
 
     this.states = {
       "loading": state_loading,
+      "tutorial": state_tutorial,
       "fixation": state_fixation,
       "trial": state_trial,
       "results": state_results,
@@ -46,6 +49,7 @@ export default class Game {
     this.mouseY = undefined;
     this.stage.addEventListener('mouseenter', this.onMouseMove.bind(this));
     this.stage.addEventListener('mousemove', this.onMouseMove.bind(this));
+    this.stage.addEventListener('click', this.onMouseClick.bind(this));
 
     this.lastTime = Date.now();
     this.deltaTime = 0;
@@ -69,7 +73,15 @@ export default class Game {
   }
 
   onLoadFinish(){
-    window.game.setState("loading");
+    if(configParams["tutorial"]["no_tutorial"]) {
+      window.game.setState("loading");
+    } else {
+      window.game.setState("tutorial");
+    }
+  }
+
+  onMouseClick(e){
+    this.logger.onUserAction("click", e.clientX, e.clientY);
   }
 
   onMouseMove(e){

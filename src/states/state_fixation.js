@@ -1,12 +1,17 @@
 import State from "../classes/State";
 import configParams from "../../config/parameters_config";
-import {TweenLite, Power2, Back} from "gsap";
+import texts from "../../config/texts";
+import {TweenLite, TweenMax, Power2, Back} from "gsap";
 
 const state_fixation = new State();
 
 state_fixation.create = function(){
   // this.game.debugLbl.innerText = "fixation";
 
+  const cursorAppearTw = TweenLite.to(this.game.cursor, 0.3, {css: {opacity: 1}, ease: Power2.easeOut});
+  if(configParams["no_animation_at_all"] || !configParams["do_animate_cursor_appear"]){
+    cursorAppearTw.totalTime(cursorAppearTw.totalDuration());
+  }
   this.pointTolerance = configParams["fixation_point_guide_radius"];
   this.guideRadius = configParams["fixation_point_guide_radius"];
   this.guideDuration = configParams["fixation_point_duration"];
@@ -21,11 +26,16 @@ state_fixation.create = function(){
   
   this.dot = this.game.addImage(window.innerWidth/2, window.innerHeight/2 - 80, "arrow");
   this.objs.push(this.dot);
-  TweenLite.to(this.dot, 0.4, {css: {top: (window.innerHeight/2 - this.dot.offsetHeight/2 - 65).toString() + "px"}, ease: Power2.easeInOut, repeat: -1, yoyo: true});
+  if(!configParams["no_animation_at_all"] && configParams["do_animate_fixation_pointer"]){
+    TweenLite.to(this.dot, 0.4, {css: {top: (window.innerHeight/2 - this.dot.offsetHeight/2 - 65).toString() + "px"}, ease: Power2.easeInOut, repeat: -1, yoyo: true});
+  }
 
-  this.lblInstruct = this.game.addLabel(window.innerWidth/2, window.innerHeight + 50, "Move your cursor to the middle of the screen", 24);
+  this.lblInstruct = this.game.addLabel(window.innerWidth/2, window.innerHeight + 50, texts["fixation_instruction"], 24);
   this.lblInstruct.className = "instructionsLbl";
-  TweenLite.to(this.lblInstruct, 0.4, {css: {top: (window.innerHeight - 120).toString() + "px"}, ease: Power2.easeOut});
+  const instructTw = TweenLite.to(this.lblInstruct, 0.4, {css: {top: (window.innerHeight - 120).toString() + "px"}, ease: Power2.easeOut});
+  if(configParams["no_animation_at_all"] || !configParams["do_animate_fixation_instruction"]){
+    instructTw.totalTime(instructTw.totalDuration());
+  }
 
   this.reposition();
 };

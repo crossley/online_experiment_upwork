@@ -18,9 +18,9 @@ state_results.create = function(){
     this.onFail();
   }
   this.game.logger.onTrialEnd();
+  this.game.logger.saveSessionData();
   this.game.curTrialInd++;
   
-  console.log(JSON.stringify(this.game.logger.sessionData).length);
 }
 
 state_results.onSuccess = function(){
@@ -47,16 +47,28 @@ state_results.onFail = function(){
 };
 
 state_results.animResult = function(){
+  
   const tl = new TimelineMax()
-    .from(this.resultImg, 0.3, {
+  if(!configParams["no_animation_at_all"] && configParams["do_animate_feedback"]){
+    
+    tl.from(this.resultImg, configParams["duration_of_feedback"] / 1000, {
       css: {
         opacity: 0, 
         top: window.innerHeight/2 + 50
       },
       ease: Power2.easeOut 
-    });
-
-    tl.add(this.proceed.bind(this), `+=${configParams["delay_after_feedback"] / 1000}`);
+    })
+    .to(this.resultImg, 0.01, {
+      css: {
+        opacity: 0
+      },
+      ease: Power2.easeOut 
+    }, `+=${configParams["delay_after_feedback"] / 1000}`);
+  } else {
+    tl.set({}, {}, `+=${configParams["duration_of_feedback"] / 1000}`);
+    tl.set({}, {}, `+=${configParams["delay_after_feedback"] / 1000}`);
+  }
+  tl.add(this.proceed.bind(this), `+=${configParams["delay_before_next_trial"] / 1000}`);
 };
 
 state_results.proceed = function(){
