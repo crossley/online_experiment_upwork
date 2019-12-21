@@ -5,6 +5,7 @@ const state_loading = new State();
 
 state_loading.create = function(){
   
+  this.game.loader.clearLoadingQueue();
   this.trialData = trialsData[this.game.curTrialInd];
   for(var i = 0; i<this.trialData["stim_id"].length; i++){
     const stim_id = this.trialData["stim_id"][i];
@@ -13,8 +14,8 @@ state_loading.create = function(){
     }
   }
 
-  this.game.loader.start();
   this.game.loader.onFinish = this.onLoadFinish;
+  this.game.loader.start();
 };
 
 state_loading.update = function(){

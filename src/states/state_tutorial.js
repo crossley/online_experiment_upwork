@@ -12,7 +12,7 @@ state_tutorial.create = function(){
 
   // pick a random set of trail sets for this tutorial
   // and preload them 
-  this.pickedTrials = this.makeRndArrLength(trialParams, configParams["tutorial"]["number_of_visual_search_practice_trials"]);
+  this.pickedTrials = this.makeRndArrLength(trialParams, configParams["tutorial"]["number_of_visual_search_practice_trials"] + configParams["tutorial"]["number_of_full_practice_trials"]);
   
   for(let k = 0; k<this.pickedTrials.length; k++){
     let trialData = this.pickedTrials[k];
@@ -53,7 +53,7 @@ state_tutorial.onLoadFinish = function(){
     lblInstructTw.totalTime(lblInstructTw.totalDuration());
   }
 
-  this.updateInstruction(texts["tutorial_text2"], configParams["tutorial"]["delay_before_instruction_change"] / 1000)
+  this.updateInstruction(texts["tutorial_text2"], configParams["tutorial"]["delay_before_instruction_change"] / 1000, 0, false)
     .then(()=>{
       if(configParams["no_animation_at_all"] || !configParams["do_animate_cursor_appear"]){
         this.game.cursor.style.opacity = "1";
@@ -65,8 +65,9 @@ state_tutorial.onLoadFinish = function(){
   this.reposition();
 };
 
-state_tutorial.updateInstruction = function(newText, wait = 0, hold = 0){
+state_tutorial.updateInstruction = function(_newText, wait = 0, hold = 0, spaceToFulfill = true){
 
+  const newText = _newText + (spaceToFulfill? "\n(press space to continue)" : "");
   return new Promise((resolve) => {
 
     const tl = new TimelineMax();
@@ -94,14 +95,27 @@ state_tutorial.updateInstruction = function(newText, wait = 0, hold = 0){
       })
   
     tl.set({}, {}, `+=${hold}`);    
-    tl.add(resolve);
+    if(spaceToFulfill){
+      tl.add(()=>{
+        this.spaceResolver = resolve;
+        document.addEventListener('keypress', this.spaceListener);
+      });
+    } else {
+      tl.add(resolve);
+    }
   })
+};
+
+state_tutorial.spaceListener = function(e){
+  if(e.key == " "){
+    document.removeEventListener('keypress', state_tutorial.spaceListener);
+    state_tutorial.spaceResolver();
+  }
 };
 
 state_tutorial.proceedTutorial = function(){
   if(this.pickedTrials.length > 0) {
     // still proceeding through a set of image-only trials 
-
     const tl = new TimelineMax();
     this.targetStimulus.style.outline = "1px solid orange";
     if(configParams["no_animation_at_all"] || !configParams["tutorial"]["do_animate_stimulus_choice"]){
@@ -115,9 +129,14 @@ state_tutorial.proceedTutorial = function(){
         css: {"opacity": 0}
       });
 
+
     tl.add(() => {
-      
       this.curPhase = "pick";
+      if(configParams["no_animation_at_all"] || !configParams["do_animate_cursor_appear"]){
+        this.game.cursor.style.opacity = "1";
+      } else {
+        TweenLite.to(this.game.cursor, 0.1, {css: {opacity: 1}, ease: Power2.easeOut});
+      }
       this.trialData = this.pickedTrials.pop();
       for(var i = 0; i<this.trialData["stim_id"].length; i++){
         const stim_id = this.trialData["stim_id"][i];
@@ -148,11 +167,21 @@ state_tutorial.proceedTutorial = function(){
       });
 
   } else {
-    // now we continue to categorize state 
-    state_tutorial.curPhase = "pick";
-    state_trial.onStimulus.call(this.targetStimulus);
+    this.onDoneWithTutorial();
   }
-}
+};
+
+state_tutorial.onDoneWithTutorial = function(){
+  if(this.alreadyDone)return;
+  this.alreadyDone = true;
+  const tl = new  TimelineMax();
+  tl.addLabel("start");
+  if(!configParams["no_animation_at_all"] && configParams["do_animate_clear_tutorial"]){
+    tl.to(this.stimuli, 0.3, {css: {"opacity": 0}});
+  }
+  tl.set({}, {}, `start+=${configParams["tutorial"]["delay_before_end_tutorial"]/1000}`);
+  tl.add(this.game.setState.bind(this.game, "loading"), "+=0");
+};
 
 state_tutorial.reposition = function(){
   state_trial.reposition.call(this);
@@ -160,7 +189,40 @@ state_tutorial.reposition = function(){
 
 
 state_tutorial.onKeyPress = function(e){
-  state_trial.onKeyPress.call(this, e);
+  if(this.alreadyDone)return;
+  const acceptedKeys = configParams["action_keys"];
+  const pressedKey = e.key;
+  this.game.logger.onUserAction("key_press", e.key);
+  if(this.curPhase == "cat"){
+    if(pressedKey == acceptedKeys[0] || pressedKey == acceptedKeys[1]) {
+      
+      TweenLite.to(this.lblInstruct, !configParams["no_animation_at_all"] && configParams["tutorial"]["do_animate_instruction"]? 0.4 : 0, {
+        css: {
+          top: this.instructOnTop? -200 : (window.innerHeight + 100).toString() + "px"
+        }, 
+        ease: Power2.easeOut
+      });
+      TweenLite.to([this.btnAction1, this.btnAction2], configParams["tutorial"]["do_animate_instruction"]? 0.4 : 0, {
+        css: {
+          opacity: 0
+        }, 
+        ease: Power2.easeOut
+      });
+      this.game.chosenCategory = acceptedKeys.indexOf(pressedKey) + 1;
+      window.setTimeout(this.proceedSecondTutorial.bind(this), configParams["delay_before_next_full_example"]);
+    }
+  }
+};
+
+state_tutorial.proceedSecondTutorial = function(){
+  
+  if(this.pickedTrials.length < 0) {
+    // tutorial finish 
+    // this.game.setState("loading");
+  } else {
+    this.proceedTutorial();
+  }
+
 };
 
 state_tutorial.finishTrial = function(){
@@ -174,7 +236,12 @@ state_tutorial.showCategorize = function(){
     .then(() => this.updateInstruction(texts["tutorial_text5"], configParams["tutorial"]["delay_before_instruction_change"] / 1000, configParams["tutorial"]["delay_before_instruction_change"] / 1000))
     .then(() => state_trial.showCategorize.call(this))
     ;
-  
+
+  state_tutorial.showCategorize = state_tutorial.showCategorize2;
+};
+
+state_tutorial.showCategorize2 = function(){
+  state_trial.showCategorize.call(this);
 };
 
 
@@ -192,13 +259,19 @@ state_tutorial.makeRndArrLength = function(srcArr, length){
 };
 
 state_tutorial.onStimulus = function(){
-  console.log(this.game.curState.curPhase);
+  if(this.alreadyDone)return;
   if(this.game.curState.curPhase != "pick")return;
   this.game.curState.curPhase = "wait";
   this.style.outline = "none";
   if(this.isTarget){
     console.log("clicked on correct stimulus");
-    state_tutorial.proceedTutorial.call(state_tutorial);
+    if(state_tutorial.pickedTrials.length > configParams["tutorial"]["number_of_full_practice_trials"]) {
+      state_tutorial.proceedTutorial.call(state_tutorial);
+    } else {
+      // now we continue to categorize state 
+      state_tutorial.curPhase = "pick";
+      state_trial.onStimulus.call(this);
+    }
   } else {
     const tl = new TimelineMax();
     tl.to(this, 
@@ -218,6 +291,7 @@ state_tutorial.terminate = function(){
   this.lblInstruct.remove();
   this.btnAction1.remove();
   this.btnAction2.remove();
+  this.game.loader.onFinish = ()=>{};
   
   document.removeEventListener("keypress", this.boundKeyPress);
 };

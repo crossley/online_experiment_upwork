@@ -1,5 +1,5 @@
 {
-  "background_color": "lightgrey",
+  "background_color": "#808080",
   "mouse_border": "3px solid rgba(100,0,0,0.8)",
   "mouse_color": "rgba(230,0,0,0.8)",
   "mouse_size": "20",
@@ -40,17 +40,21 @@
 
   "tutorial": {
     "no_tutorial": false,
-    "number_of_visual_search_practice_trials": 2,
+    "number_of_visual_search_practice_trials": 3,
+    "number_of_full_practice_trials": 3,
 
     "delay_before_highlighting_correct_image": 100,
     "delay_before_next_image_only_example": 300, 
-    "delay_before_instruction_change": 2500,
+    "delay_before_next_full_example": 300, 
+    "delay_before_instruction_change": 0,
+    "delay_before_end_tutorial": 300,
     
     "do_animate_instruction": true,
     "do_animate_stimulus_choice": true,
     "do_animate_images_change": true,
     "do_animate_wrong_highlight": true,
-    "do_animate_correct_highlight": true
+    "do_animate_correct_highlight": true,
+    "do_animate_clear_tutorial": true
   }
   
 }

@@ -8,6 +8,7 @@ const state_trial = new State();
 
 state_trial.create = function(){
 
+  console.log(this.game.curTrialInd);
   this.game.logger.onTrialBegin();
   this.trialData = trialsData[this.game.curTrialInd];
 

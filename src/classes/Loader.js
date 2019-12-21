@@ -20,7 +20,7 @@ export default class Loader {
   }
 
   start(){
-    console.log("loader start");
+    console.log("loader start - ", this.loadingQueue.length);
     this.loadingTarget = this.loadingQueue.length;
     this.progress = 0;
     this.proceedLoadingQueue();
