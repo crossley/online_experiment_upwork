@@ -1,0 +1,31 @@
+{
+  "name": "online_experiment_upwork",
+  "version": "1.0.0",
+  "description": "An experiment comprising of a set of trials that involve drawing a set of images with various contrasts, having the users categorize the images, and storing the actions.",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crossley/online_experiment_upwork.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/crossley/online_experiment_upwork/issues"
+  },
+  "homepage": "https://github.com/crossley/online_experiment_upwork#readme",
+  "devDependencies": {
+    "gsap": "^3.0.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.587.0",
+    "howler": "^2.1.2"
+  }
+}
