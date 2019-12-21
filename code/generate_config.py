@@ -71,13 +71,18 @@ y = np.concatenate((y1_rot_t, y2_rot_t, yd_rot_t))
 cat = np.concatenate((np.ones(n, dtype=np.int8), 2 * np.ones(n, dtype=np.int8),
                       -1 * np.ones(n - 1, dtype=np.int8)))
 stim_key = {'id': [], 'x': [], 'y': [], 'cat': [], 'contrast': []}
-for i in range(x.shape[0]):
-    # save_stim(x[i], y[i], 1.0, '../img/' + str(i) + '.png')
-    stim_key['id'].append(i)
-    stim_key['x'].append(x[i])
-    stim_key['y'].append(y[i])
-    stim_key['cat'].append(cat[i])
-    stim_key['contrast'].append(1.0)
+
+contrast = np.linspace(0.2, 1, 5)
+
+for i in range(contrast.shape[0]):
+    for j in range(x.shape[0]):
+        # save_stim(x[j], y[j], contrast[i],
+        #           '../img/' + str(i * x.shape[0] + j) + '.png')
+        stim_key['id'].append(i * x.shape[0] + j)
+        stim_key['x'].append(x[j])
+        stim_key['y'].append(y[j])
+        stim_key['cat'].append(cat[j])
+        stim_key['contrast'].append(contrast[i])
 stim_key = pd.DataFrame(stim_key)
 
 x = np.concatenate((x1_rot_t, x2_rot_t))
@@ -92,10 +97,14 @@ circle_y = r * np.sin(theta)
 # plt.plot(circle_x, circle_y, '.')
 # plt.show()
 
-stim_key[stim_key['cat'] == -1]['id']
-stim_key[stim_key['cat'] != -1]['id'].values
-stim_id = stim_key[stim_key['cat'] != -1]['id'].values
-distract_id = stim_key[stim_key['cat'] == -1]['id'].values
+stim_id = stim_key[(stim_key['cat'] != -1) &
+                   (stim_key['contrast'] == np.median(contrast))]['id'].values
+
+distract_id = stim_key[(stim_key['cat'] == -1) & (
+    stim_key['contrast'] != np.median(contrast))]['id'].values
+distract_id = np.reshape(distract_id, (4, 4))
+
+contrast_selector = np.arange(0, 4, 1)
 
 trial_config = {'stim_id': [], 'target': [], 'cat': [], 'position': []}
 for i in range(n_targets):
@@ -106,9 +115,14 @@ for i in range(n_targets):
         for k in range(n_stim_per_rep):
             np.random.shuffle(distract_id)
             np.random.shuffle(position)
-            trial_config['stim_id'].append(np.append(stim_id[k], distract_id))
-            trial_config['position'].append([(circle_x[i], circle_y[i])
-                                             for i in position])
+            np.random.shuffle(contrast_selector)
+
+            trial_config['stim_id'].append(
+                np.append(stim_id[k],
+                          distract_id[contrast_selector, [0, 1, 2, 3]]))
+
+            trial_config['position'].append([(circle_x[ii], circle_y[ii])
+                                             for ii in position])
             trial_config['target'].append(
                 np.append(1, np.zeros(distract_id.shape[0], dtype=np.int8)))
             trial_config['cat'].append(cat[k])
