@@ -38,6 +38,7 @@ state_fixation.create = function(){
   }
 
   this.reposition();
+
 };
 
 state_fixation.reposition = function(){

@@ -1,4 +1,5 @@
 import configParams from "../../config/parameters_config";
+import { TimelineMax } from "gsap/gsap-core";
 export default class Logger {
   constructor(game){
     this.game = game;
@@ -48,8 +49,8 @@ export default class Logger {
   }
 
   saveSessionData() {
-    this.POST('../backend/addSessionData.php', {"session_id": 0, "session_data": JSON.stringify(this.sessionData)}, (data) => {
-      console.log("successfully saved data");
+    this.POST('../backend/addSessionData.php', {"session_data": JSON.stringify(this.sessionData)}, (data) => {
+      console.log("successfully saved data, ", data);
     }, () => { 
       console.log("failed to save data");
     });
@@ -83,7 +84,7 @@ export default class Logger {
   }
 
   onTrialEnd(){
-    const events = {
+    const event = {
       "type": "trial_end",
       "num": this.game.curTrialInd,
       "status": (this.game.isTrialSuccess? "correct": "wrong"),
@@ -93,14 +94,25 @@ export default class Logger {
   }
 
   logMousePos(){
-    const perX = Math.round((this.game.mouseX||0 / window.innerWidth) * 100) / 100;
-    const perY = Math.round((this.game.mouseY||0 / window.innerHeight) * 100) / 100;
+    const perX = Math.round(((this.game.mouseX||0) / window.innerWidth) * 100);
+    const perY = Math.round(((this.game.mouseY||0) / window.innerHeight) * 100);
     if((this.perXPrev != perX || this.perYPrev != perY)  
       ||!(configParams["capture_mouse_position_only_when_changed"])){
       this.perXPrev = perX;
       this.perYPrev = perY;
-      const posStr = (perX <10? "0" + perX : perX.toString()) + (perY <10? "0" + perY : perY.toString());
+      const posStr = ((perX <10? "0" + perX : perX.toString())) + ((perY <10? "0" + perY : perY.toString()));
       this.sessionData.mouse_life += posStr;
+    }
+  }
+
+  testMouseStr(str){
+    const tl = new TimelineMax();
+    let s = 0;
+    while(s < str.length){
+      const x = str.substr(s, 2);
+      const y = str.substr(s+2, 2);
+      tl.to(this.game.cursor, 0.1, {css: {left: x / 100 * window.innerWidth, top: y / 100 * window.innerHeight}});
+      s+=4;
     }
   }
 

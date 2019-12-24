@@ -6,8 +6,11 @@ if(!$conn) {
 }
 
 
-$sql = "INSERT INTO `experiment_data`(`session_id`, `session_data`) VALUES ('" .  $_POST["session_id"] . "','" . $_POST["session_data"] . "')"; 
+$sessionId = 0;
+$sessionData = $_POST["session_data"];
+$sql = "INSERT INTO experiment_data (session_id, session_data) VALUES('{$sessionId}', '{$sessionData}') ON DUPLICATE KEY UPDATE session_data='{$sessionData}';";
 $result = mysqli_query($conn, $sql);
 
+echo mysqli_error($conn);
 mysqli_close($conn);
 ?>
