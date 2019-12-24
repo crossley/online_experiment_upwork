@@ -56,17 +56,12 @@ Some parameters are self-explanatory.
 ### stim_key.json 
 Maps stim_id (i.e., the file name of the stimulu png) to its properties (e.g., contrast level).
 
-### trial_config.json 
-Lists, for every trial, every stim_id that should be drawn to the screen and the position where it should be drawn. The position coordinates are in [0, 1], scaled up to screen coordinates. 
-A game parameter to do this exists in parameters_config.json
-
 <a name = "data"></a>
 ## Data Collection
-Throughout the session, we collect as many useful data as possible, which is put in a JSON object, an example to this JSON object is shown in 
-./config/sample_session_data.json, This object is stringified and added to the DB as a string associated with the unique session ID. <br/>
+Throughout the session, we collect as many useful data as possible, which is put in a JSON object.
 The data contains the following: 
-* config_info: the configuration info used during the game
-* environment_info: regarding the device and navigator used by the subject
+* configInfo: the configuration info used during the game
+* environmentInfo: regarding the device and navigator used by the subject
 * events: all events of interest and their time stamp 
    * session_begin: fired once at the beginning of the session
    * trial_begin: fired at the begining of every trial
@@ -76,6 +71,10 @@ The data contains the following:
    * keyboard_press
 * mouse_life: a string containing the position of the mouse at every interval during game-play, the sample rate at which this position is 
 captured is defined in the paramters_config.json file
+
+Examples on how to obtain and use this data in Python:
+./code/plotEventsAndActions.py
+./code/plotMouseLife.py
 
 <a name = "credits"></a>
 ## Credits
