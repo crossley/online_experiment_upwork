@@ -1,4 +1,8 @@
 {
+  "number_of_trials": "all",
+  "assets_dir": "http://www.matthewjohncrossley.com/experiment_assets/",
+  "backend_dir": "http://www.matthewjohncrossley.com/experiment_backend/",
+
   "background_color": "#808080",
   "mouse_border": "3px solid rgba(100,0,0,0.8)",
   "mouse_color": "rgba(230,0,0,0.8)",
@@ -39,7 +43,7 @@
   "do_animate_feedback": true,
 
   "tutorial": {
-    "no_tutorial": true,
+    "no_tutorial": false,
     "number_of_visual_search_practice_trials": 3,
     "number_of_full_practice_trials": 3,
 

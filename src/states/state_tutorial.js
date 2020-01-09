@@ -19,7 +19,7 @@ state_tutorial.create = function(){
     for(let i = 0; i< trialData["stim_id"].length; i++){
       const stim_id = trialData["stim_id"][i];
       if(!this.game.loader.cache[stim_id.toString()]){
-        this.game.loader.addImage(stim_id.toString(), `../img/${stim_id.toString()}.png`);
+        this.game.loader.addImage(stim_id.toString(), `/img/${stim_id.toString()}.png`, configParams["assets_dir"]);
       }
     }
   }

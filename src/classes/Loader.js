@@ -15,8 +15,8 @@ export default class Loader {
     this.cache = {};
   }
 
-  addImage(key, src){
-    this.loadingQueue.push({type: "image", key: key, src: src});
+  addImage(key, src, url = '..'){
+    this.loadingQueue.push({type: "image", key: key, src: url + src});
   }
 
   start(){

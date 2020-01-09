@@ -7,6 +7,7 @@ import {Howl} from "howler";
 const state_results = new State();
 
 state_results.create = function(){
+  this.assetsURL = configParams["assets_dir"];
   const isCorrectImage = (this.game.chosenStimulus.isTarget == 1);
   const isCorrectCategory = (this.game.chosenCategory == this.game.chosenStimulus.category);
   //this.game.debugLbl.innerText = "results";
@@ -24,11 +25,11 @@ state_results.create = function(){
 }
 
 state_results.onSuccess = function(){
-  this.resultImg = this.game.addImage(window.innerWidth/2, window.innerHeight/2, "check");
+  this.resultImg = this.game.addImage(window.innerWidth/2, window.innerHeight/2, "check", configParams["assets_dir"]);
   this.animResult();
   if(configParams["play_audio_positive_feedback"]){
     var sound = new Howl({
-      src: ['../audio/success.mp3', '../audio/success.ogg']
+      src: [this.assetsURL + '/audio/success.mp3', this.assetsURL + '/audio/success.ogg']
     });
     sound.play();
   }
@@ -40,7 +41,7 @@ state_results.onFail = function(){
   
   if(configParams["play_audio_negative_feedback"]){
     var sound = new Howl({
-      src: ['../audio/wrong.mp3', '../audio/wrong.ogg']
+      src: [this.assetsURL + '/audio/wrong.mp3', this.assetsURL + '/audio/wrong.ogg']
     });
     sound.play();
   }
@@ -72,7 +73,14 @@ state_results.animResult = function(){
 };
 
 state_results.proceed = function(){
-  if(this.game.curTrialInd >= trialsData.length){
+  let trialsCount;
+  const conf_trialsCount = configParams["number_of_trials"];
+  if(conf_trialsCount && parseInt(conf_trialsCount)){
+    trialsCount = Math.min(conf_trialsCount, trialsData.length);
+  } else {
+    trialsCount = trialsData.length;
+  }
+  if(this.game.curTrialInd >= trialsCount){
     this.game.setState("finish");
   } else {
     this.game.setState("loading");

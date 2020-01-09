@@ -64,10 +64,10 @@ export default class Game {
 
     // this.debugLbl = this.addLabel(window.innerWidth/2, 50, "loading");
     
-    this.loader.addImage("arrow", "../img/arrow.png");
-    this.loader.addImage("check", "../img/check.png");
-    this.loader.addImage("cross", "../img/cross.png");
-    this.loader.addImage("keyboardBtn", "../img/keyboardBtn.png");
+    this.loader.addImage("arrow", "/img/arrow.png", configParams["assets_dir"]);
+    this.loader.addImage("check", "/img/check.png", configParams["assets_dir"]);
+    this.loader.addImage("cross", "/img/cross.png", configParams["assets_dir"]);
+    this.loader.addImage("keyboardBtn", "/img/keyboardBtn.png", configParams["assets_dir"]);
     this.loader.start();
     this.loader.onFinish = this.onLoadFinish;
   }
@@ -81,7 +81,7 @@ export default class Game {
   }
 
   onMouseClick(e){
-    this.logger.onUserAction("click", e.clientX, e.clientY);
+    this.logger.onUserAction("click", e.offsetX, e.offsetY);
   }
 
   onMouseMove(e){
@@ -150,9 +150,11 @@ export default class Game {
     img = document.createElement("div");
     img.key = key;
     img.style.backgroundImage = `url("${this.loader.cache[key].src}")`;
+    img.style.backgroundSize = "cover";
     img.style.width = this.loader.cache[key].width.toString() + "px";
     img.style.height = this.loader.cache[key].height.toString() + "px";
     img.style.position = "absolute";
+
     img.style.left = (x - parseInt(img.style.width) / 2).toString() + "px";
     img.style.top = (y -  parseInt(img.style.height) / 2).toString() + "px";
     this.stage.insertBefore(img, this.cursor);

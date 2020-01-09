@@ -49,7 +49,7 @@ export default class Logger {
   }
 
   saveSessionData() {
-    this.POST('../backend/addSessionData.php', {"session_data": JSON.stringify(this.sessionData)}, (data) => {
+    this.POST(configParams["backend_dir"] + 'addSessionData.php', {"session_data": JSON.stringify(this.sessionData)}, (data) => {
       console.log("successfully saved data, ", data);
     }, () => { 
       console.log("failed to save data");

@@ -43,6 +43,7 @@ state_trial.buildTrial = function(){
       window.innerHeight/2 + position[1] * window.innerHeight/2, stim_id.toString());
     stimulus.category = category;
     stimulus.isTarget = isTarget;
+    stimulus.originalWidth = stimulus.offsetWidth;
     if(isTarget){
       this.targetStimulus = stimulus;
     }
@@ -129,6 +130,13 @@ state_trial.reposition = function(){
         const halfHeight = parseInt(stim.style.height) / 2;
         const transX = (stim.position[0] + 1 ) / 2;
         const transY = (stim.position[1] + 1) / 2;
+            
+        let w = stim.originalWidth;
+        if(w > fullW / 3){
+          w = fullW / 3;
+        }
+        stim.style.width = stim.style.height = (w).toString() + "px";
+
         const posX = (window.innerWidth - fullW)/2 + (1 - transX) * halfWidth + transX * fullW - transX * halfWidth;
         const posY =  (1 - transY) * halfHeight + transY * fullH - transY * halfHeight;
         stim.style.left = (posX - parseInt(stim.style.width) / 2).toString() + "px";

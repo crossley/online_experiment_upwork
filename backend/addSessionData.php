@@ -5,8 +5,8 @@ if(!$conn) {
   exit('Could not connect');
 }
 
-
-$sessionId = 0;
+session_start();
+$sessionId = session_id();
 $sessionData = $_POST["session_data"];
 $sql = "INSERT INTO experiment_data (session_id, session_data) VALUES('{$sessionId}', '{$sessionData}') ON DUPLICATE KEY UPDATE session_data='{$sessionData}';";
 $result = mysqli_query($conn, $sql);

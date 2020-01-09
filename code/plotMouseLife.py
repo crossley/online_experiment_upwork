@@ -4,8 +4,8 @@ import requests
 import json
 
 # get all session data from the DB using the session_id
-url = 'http://www.matthewjohncrossley.com/experiment_test/backend/getSessionData.php'
-response = requests.post(url, {'session_id': '0'})
+url = 'http://www.matthewjohncrossley.com/experiment_backend/getSessionData.php'
+response = requests.post(url, {'session_id': 'eyIPiIhwEckamk3ufOuiG3'})
 data = json.loads(response.text)
 
 # extract the mouse life data 
