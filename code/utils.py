@@ -267,4 +267,4 @@ def save_stim(x, y, contrast, name):
     win.getMovieFrame()
     win.saveMovieFrames(name)
 
-    event.waitKeys(keyList=['escape'])
+    # event.waitKeys(keyList=['escape'])

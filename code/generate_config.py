@@ -72,7 +72,8 @@ cat = np.concatenate((np.ones(n, dtype=np.int8), 2 * np.ones(n, dtype=np.int8),
                       -1 * np.ones(n - 1, dtype=np.int8)))
 stim_key = {'id': [], 'x': [], 'y': [], 'cat': [], 'contrast': []}
 
-contrast = np.linspace(0.2, 1, 5)
+# contrast = np.linspace(0.1, 1, 5)
+contrast = np.array([ 0.1, 0.35, 0.6, 0.8, 1.0 ])
 
 for i in range(contrast.shape[0]):
     for j in range(x.shape[0]):
