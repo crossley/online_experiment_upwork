@@ -25,11 +25,12 @@ state_results.create = function(){
 }
 
 state_results.onSuccess = function(){
-  this.resultImg = this.game.addImage(window.innerWidth/2, window.innerHeight/2, "check", configParams["assets_dir"]);
+  this.resultImg = this.game.addImage(window.innerWidth/2, window.innerHeight/2, "check");
   this.animResult();
   if(configParams["play_audio_positive_feedback"]){
     var sound = new Howl({
-      src: [this.assetsURL + '/audio/success.mp3', this.assetsURL + '/audio/success.ogg']
+      src: [this.assetsURL + '/audio/success.mp3', this.assetsURL + '/audio/success.ogg'],
+      volume: 0.09
     });
     sound.play();
   }
@@ -41,7 +42,7 @@ state_results.onFail = function(){
   
   if(configParams["play_audio_negative_feedback"]){
     var sound = new Howl({
-      src: [this.assetsURL + '/audio/wrong.mp3', this.assetsURL + '/audio/wrong.ogg']
+      src: [this.assetsURL + '/audio/wrong_soft.mp3', this.assetsURL + '/audio/wrong_soft.ogg']
     });
     sound.play();
   }

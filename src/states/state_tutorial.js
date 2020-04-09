@@ -2,7 +2,7 @@ import State from "../classes/State";
 import configParams from "../../config/parameters_config";
 import trialParams from "../../config/trial_config";
 import texts from "../../config/texts";
-import {TweenLite, TimelineMax, Power2} from "gsap";
+import {TweenLite, TweenMax, TimelineMax, Power2} from "gsap";
 import state_trial from "./state_trial";
 const state_tutorial = new State();
 
@@ -30,8 +30,10 @@ state_tutorial.create = function(){
 
 // begin the tutorial
 state_tutorial.onLoadFinish = function(){
+
   this.trialData = this.pickedTrials.pop();
   state_trial.buildTrial.call(this);
+  this.reposition();
   // start tutorial timeline 
 
   this.curPhase = "pick";
@@ -42,18 +44,21 @@ state_tutorial.onLoadFinish = function(){
   document.addEventListener("keypress", this.boundKeyPress);
   
   this.lblInstruct.innerText = texts["tutorial_text1"];
+  this.lblInstruct.style.top = `${window.innerHeight + 200}px`;
   this.lblInstruct.style.width = "300";
-  const lblInstructTw = TweenLite.to(this.lblInstruct, 0.4, {
+  const lblInstructTw = TweenMax.to(this.lblInstruct, 0.4, {
     css: {
-      top: this.instructOnTop? 0 : (window.innerHeight - 160).toString() + "px"
+      top: this.categorizeInstructTopTo
     }, 
+    delay: 0.5,
     ease: Power2.easeOut
   });
   if(configParams["no_animation_at_all"] || !configParams["tutorial"]["do_animate_instruction"]){
     lblInstructTw.totalTime(lblInstructTw.totalDuration());
   }
+  lblInstructTw.eventCallback("onComplete", ()=>{
 
-  this.updateInstruction(texts["tutorial_text2"], configParams["tutorial"]["delay_before_instruction_change"] / 1000, 0, false)
+    this.updateInstruction(texts["tutorial_text2"], configParams["tutorial"]["delay_before_instruction_change"] / 1000, 0, false)
     .then(()=>{
       if(configParams["no_animation_at_all"] || !configParams["do_animate_cursor_appear"]){
         this.game.cursor.style.opacity = "1";
@@ -62,7 +67,9 @@ state_tutorial.onLoadFinish = function(){
       }
     });
 
-  this.reposition();
+  })
+
+
 };
 
 state_tutorial.updateInstruction = function(_newText, wait = 0, hold = 0, spaceToFulfill = true){
@@ -75,11 +82,12 @@ state_tutorial.updateInstruction = function(_newText, wait = 0, hold = 0, spaceT
     this.lblInstruct.innerText = newText;
     const newHeight = this.lblInstruct.offsetHeight;
     this.lblInstruct.innerText = tmpTxt;
-    tl.set({}, {}, `+=${wait}`);
+    tl.set({}, {}, `+=${spaceToFulfill? 0 : wait}`);
   
     tl.to(this.lblInstruct, !configParams["no_animation_at_all"] && configParams["tutorial"]["do_animate_instruction"]? 0.4 : 0, {
       css: {
-        top: this.instructOnTop? -200 : (window.innerHeight + 100).toString() + "px"
+        top: this.categorizeInstructTopFrom,
+        opacity: 0
       }, 
       ease: Power2.easeOut
     });
@@ -89,12 +97,13 @@ state_tutorial.updateInstruction = function(_newText, wait = 0, hold = 0, spaceT
     tl.add(this.reposition.bind(this), "+=0");
     tl.to(this.lblInstruct, !configParams["no_animation_at_all"] && configParams["tutorial"]["do_animate_instruction"]? 0.4 : 0, {
         css: {
-          top:  this.instructOnTop? 0 :(window.innerHeight - newHeight - 35).toString() + "px"
+          top:  this.categorizeInstructTopTo,
+          opacity: 1
         }, 
         ease: Power2.easeOut
       })
   
-    tl.set({}, {}, `+=${hold}`);    
+    tl.set({}, {}, `+=${spaceToFulfill? 0 : hold}`);    
     if(spaceToFulfill){
       tl.add(()=>{
         this.spaceResolver = resolve;
@@ -198,12 +207,14 @@ state_tutorial.onKeyPress = function(e){
       
       TweenLite.to(this.lblInstruct, !configParams["no_animation_at_all"] && configParams["tutorial"]["do_animate_instruction"]? 0.4 : 0, {
         css: {
-          top: this.instructOnTop? -200 : (window.innerHeight + 100).toString() + "px"
+          top: this.categorizeInstructTopFrom,
+          opacity: 0
         }, 
         ease: Power2.easeOut
       });
       TweenLite.to([this.btnAction1, this.btnAction2], configParams["tutorial"]["do_animate_instruction"]? 0.4 : 0, {
         css: {
+          top: this.actionBtnsTopFrom - this.categorizeInstructTopTo + this.categorizeInstructTopFrom,
           opacity: 0
         }, 
         ease: Power2.easeOut

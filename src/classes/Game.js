@@ -145,19 +145,25 @@ export default class Game {
     }
   }
 
-  addImage(x, y, key){
+  addImage(x, y, key, parent){
     let img;
     img = document.createElement("div");
     img.key = key;
-    img.style.backgroundImage = `url("${this.loader.cache[key].src}")`;
-    img.style.backgroundSize = "cover";
-    img.style.width = this.loader.cache[key].width.toString() + "px";
-    img.style.height = this.loader.cache[key].height.toString() + "px";
+    if(key){
+      img.style.backgroundImage = `url("${this.loader.cache[key].src}")`;
+      img.style.backgroundSize = "cover";
+      img.style.width = this.loader.cache[key].width.toString() + "px";
+      img.style.height = this.loader.cache[key].height.toString() + "px";
+    }
     img.style.position = "absolute";
 
     img.style.left = (x - parseInt(img.style.width) / 2).toString() + "px";
     img.style.top = (y -  parseInt(img.style.height) / 2).toString() + "px";
-    this.stage.insertBefore(img, this.cursor);
+    if(parent){
+      parent.appendChild(img);
+    } else {
+      this.stage.insertBefore(img, this.cursor);
+    }
 
     return img;
   }

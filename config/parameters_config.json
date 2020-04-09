@@ -1,6 +1,6 @@
 {
   "number_of_trials": "all",
-  "assets_dir": "http://www.matthewjohncrossley.com/experiment_assets/",
+  "assets_dir": "../",
   "backend_dir": "http://www.matthewjohncrossley.com/experiment_backend/",
 
   "background_color": "#808080",
@@ -18,7 +18,10 @@
   "clear_other_stimuli": false,
   "is_stimuli_space_circular": true,
   "should_stimuli_not_exceed_screen": true,
-  "instruction_banner_position": "bottom_left",
+  "instruction_banner_position": "center",
+  "are_stimuli_positions_fixed": true,
+  "stimuli_container_fixed_size": 550,
+
 
   "play_audio_positive_feedback": true,
   "play_audio_negative_feedback": true,
@@ -50,7 +53,7 @@
     "delay_before_highlighting_correct_image": 100,
     "delay_before_next_image_only_example": 300, 
     "delay_before_next_full_example": 300, 
-    "delay_before_instruction_change": 0,
+    "delay_before_instruction_change": 1000,
     "delay_before_end_tutorial": 300,
     
     "do_animate_instruction": true,
