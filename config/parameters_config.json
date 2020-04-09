@@ -1,6 +1,6 @@
 {
   "number_of_trials": "all",
-  "assets_dir": "../",
+  "assets_dir": "http://www.matthewjohncrossley.com/experiment_assets/",
   "backend_dir": "http://www.matthewjohncrossley.com/experiment_backend/",
 
   "background_color": "#808080",
