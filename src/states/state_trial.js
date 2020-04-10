@@ -280,8 +280,8 @@ state_trial.showCategorize = function(){
   
   if(configParams["move_stimulus_to_middle"]){
     tl.to(stim, configParams["do_animate_move_stimulus_to_middile"]? 0.5 : 0, {css: {
-      left: window.innerWidth/2 - parseInt(stim.style.width) /2,
-      top: 100
+      left: window.innerWidth/2 - parseInt(stim.style.width) /2 - parseInt(this.stimuliContainer.style.left),
+      top: 20
     }});
   }
   tl.to(this.lblInstruct, configParams["do_animate_trial_instruction"]? 0.4 : 0, {
