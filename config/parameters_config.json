@@ -46,7 +46,7 @@
   "do_animate_feedback": true,
 
   "tutorial": {
-    "no_tutorial": true,
+    "no_tutorial": false,
     "number_of_visual_search_practice_trials": 3,
     "number_of_full_practice_trials": 3,
 
