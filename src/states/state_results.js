@@ -21,7 +21,7 @@ state_results.create = function(){
   this.game.logger.onTrialEnd();
   this.game.logger.saveSessionData();
   this.game.curTrialInd++;
-  
+
 }
 
 state_results.onSuccess = function(){
@@ -39,7 +39,7 @@ state_results.onSuccess = function(){
 state_results.onFail = function(){
   this.resultImg = this.game.addImage(window.innerWidth/2, window.innerHeight/2, "cross");
   this.animResult();
-  
+
   if(configParams["play_audio_negative_feedback"]){
     var sound = new Howl({
       src: [this.assetsURL + '/audio/wrong_soft.mp3', this.assetsURL + '/audio/wrong_soft.ogg']
@@ -49,22 +49,22 @@ state_results.onFail = function(){
 };
 
 state_results.animResult = function(){
-  
+
   const tl = new TimelineMax()
   if(!configParams["no_animation_at_all"] && configParams["do_animate_feedback"]){
-    
+
     tl.from(this.resultImg, configParams["duration_of_feedback"] / 1000, {
       css: {
-        opacity: 0, 
+        opacity: 0,
         top: window.innerHeight/2 + 50
       },
-      ease: Power2.easeOut 
+      ease: Power2.easeOut
     })
     .to(this.resultImg, 0.01, {
       css: {
         opacity: 0
       },
-      ease: Power2.easeOut 
+      ease: Power2.easeOut
     }, `+=${configParams["delay_after_feedback"] / 1000}`);
   } else {
     tl.set({}, {}, `+=${configParams["duration_of_feedback"] / 1000}`);
@@ -85,7 +85,7 @@ state_results.proceed = function(){
     this.game.setState("finish");
   } else {
     this.game.setState("loading");
-  } 
+  }
 };
 
 state_results.terminate = function(){

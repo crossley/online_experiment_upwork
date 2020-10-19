@@ -63,7 +63,7 @@ export default class Game {
     this.curTrialInd = 0;
 
     // this.debugLbl = this.addLabel(window.innerWidth/2, 50, "loading");
-    
+
     this.loader.addImage("arrow", "/img/arrow.png", configParams["assets_dir"]);
     this.loader.addImage("check", "/img/check.png", configParams["assets_dir"]);
     this.loader.addImage("cross", "/img/cross.png", configParams["assets_dir"]);
@@ -131,8 +131,8 @@ export default class Game {
     this.curState = this.states[this.curStateKey];
 
     if(prevState) {
-      // transitioning from current state 
-      if(this.stateMachine.transitions[prevStateKey] && 
+      // transitioning from current state
+      if(this.stateMachine.transitions[prevStateKey] &&
         this.stateMachine.transitions[prevStateKey][newStateKey]){
         // if a special transition function is defined, we use that
         this.stateMachine.transitions[prevStateKey][newStateKey].call(this);

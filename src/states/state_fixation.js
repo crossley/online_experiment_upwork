@@ -23,7 +23,7 @@ state_fixation.create = function(){
   this.circle.style.height = (this.guideRadius * 2).toString() + "px";
   this.circle.className = "guideCircle";
   this.game.stage.appendChild(this.circle);
-  
+
   this.dot = this.game.addImage(window.innerWidth/2, window.innerHeight/2 - 80, "arrow");
   this.objs.push(this.dot);
   if(!configParams["no_animation_at_all"] && configParams["do_animate_fixation_pointer"]){
@@ -47,7 +47,7 @@ state_fixation.reposition = function(){
 
   this.dot.style.left = (window.innerWidth/2 - this.dot.offsetWidth/2).toString() + "px";
   this.dot.style.top = (window.innerHeight/2 - this.dot.offsetHeight/2 - 80).toString() + "px";
-  
+
   this.lblInstruct.style.left = (window.innerWidth/2 - this.lblInstruct.offsetWidth / 2).toString() + "px";
 };
 
@@ -66,7 +66,7 @@ state_fixation.update = function(){
     if(this.curGuideRadius > 0){
       this.curGuideRadius -= this.game.deltaTime / this.guideDuration * this.guideRadius;
       if(this.curGuideRadius < 0)this.curGuideRadius = 0;
-    } else { 
+    } else {
       this.game.setState("trial");
     }
     let circX = (window.innerWidth/2 - this.circle.offsetWidth/2) * ((this.curGuideRadius / this.guideRadius)) +  (this.game.mouseX - this.curGuideRadius) * (1 - this.curGuideRadius / this.guideRadius);
@@ -75,7 +75,7 @@ state_fixation.update = function(){
   } else {
     this.circResetTw = TweenLite.to(this, 0.3, {curGuideRadius: this.guideRadius, ease: Power2.easeOut});
   }
-  
+
   this.circle.style.width = (this.curGuideRadius * 2).toString() + "px";
   this.circle.style.height = (this.curGuideRadius * 2).toString() + "px";
   this.circle.style.left = (window.innerWidth/2 - this.curGuideRadius - 2).toString() + "px";

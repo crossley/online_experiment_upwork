@@ -5,7 +5,7 @@
   "first_category": "Category A",
   "second_category": "Category B",
   "thanks": "Thank you for participating in this experiment\nPlease copy the code below and submit it to Mturk to finish this task.",
-  
+
   "tutorial_text1": "In this game, you will see an arrangement of images like this",
   "tutorial_text2": "Your first job is to select the image that has the median contrast level",
   "tutorial_text3": "Every image that you click belongs to one of two categories, category A or category B",

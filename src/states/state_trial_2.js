@@ -13,9 +13,7 @@ state_trial.create = function(){
   this.trialData = trialsData[this.game.curTrialInd];
 
   this.buildTrial();
-
   this.reposition();
-
   this.showPick();
 
   this.boundKeyPress =  this.onKeyPress.bind(this);
@@ -127,7 +125,6 @@ state_trial.reposition = function(){
         this.stimuliContainer.style.top = `${window.innerHeight/2 - fullFixedHeight/2}px`;
         this.stimuliContainer.style.width = `${fullFixedWidth}px`;
         this.stimuliContainer.style.height = `${fullFixedHeight}px`;
-
 
         stim.style.left = ( fullFixedWidth/2 + stim.position[0] * fixedWidth/2 - parseInt(stim.style.width) / 2).toString() + "px";
         stim.style.top = ( fullFixedHeight/2 + stim.position[1] * fixedHeight/2 - parseInt(stim.style.height) / 2).toString() + "px";

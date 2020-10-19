@@ -5,7 +5,7 @@ import configParams from "../../config/parameters_config.json";
 const state_loading = new State();
 
 state_loading.create = function(){
-  
+
   this.game.loader.clearLoadingQueue();
   this.trialData = trialsData[this.game.curTrialInd];
   for(var i = 0; i<this.trialData["stim_id"].length; i++){
