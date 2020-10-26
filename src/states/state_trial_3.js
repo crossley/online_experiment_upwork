@@ -56,9 +56,9 @@ state_trial.buildTrial = function() {
     }
     // this.game.debugLbl.innerText = "Trial began - " + this.game.curTrialInd;
 
-    this.lblInstruct = this.game.addLabel(window.innerWidth / 2, window.innerHeight + 50, texts["trial_first_instruction"], 24);
+    this.lblInstruct = this.game.addLabel(window.innerWidth / 2, window.innerHeight + 50, texts["trial_second_instruction"], 24);
     this.lblInstruct.className = "instructionsLbl";
-    this.lblInstruct.style.width = "300px";
+    this.lblInstruct.style.width = "250px";
 
     this.btnAction1 = this.game.addImage(0, window.innerHeight, "keyboardBtn");
     this.btnAction1.style.opacity = "1";
