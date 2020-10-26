@@ -13,7 +13,7 @@ state_finish.create = function(){
   this.fieldCode.className = "fieldCode";
   this.fieldCode.setAttribute('value', generatedCode.toString());
   this.fieldCode.setAttribute('readonly', true);
-  this.fieldCode.addEventListener('click', ()=>{ 
+  this.fieldCode.addEventListener('click', ()=>{
     this.fieldCode.select();
     this.fieldCode.setSelectionRange(0, 99999); /*For mobile devices*/
 

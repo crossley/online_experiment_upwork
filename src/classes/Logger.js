@@ -25,10 +25,8 @@ export default class Logger {
     window.setInterval(this.logMousePos.bind(this), int);
   }
 
-  initAWS(){
-  }
+  initAWS(){}
 
-  
   POST(url, data, onSuccess, onFail) {
     var params = typeof data == 'string' ? data : Object.keys(data).map(
       function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
@@ -51,7 +49,7 @@ export default class Logger {
   saveSessionData() {
     this.POST(configParams["backend_dir"] + 'addSessionData.php', {"session_data": JSON.stringify(this.sessionData)}, (data) => {
       console.log("successfully saved data, ", data);
-    }, () => { 
+    }, () => {
       console.log("failed to save data");
     });
   }
@@ -61,7 +59,7 @@ export default class Logger {
       "type": type,
       "params": params,
       "timestamp": Date.now()
-    }
+    };
     this.sessionData.actions.push(action);
     console.log(action);
   }
@@ -96,7 +94,7 @@ export default class Logger {
   logMousePos(){
     const perX = Math.round(((this.game.mouseX||0) / window.innerWidth) * 100);
     const perY = Math.round(((this.game.mouseY||0) / window.innerHeight) * 100);
-    if((this.perXPrev != perX || this.perYPrev != perY)  
+    if((this.perXPrev != perX || this.perYPrev != perY)
       ||!(configParams["capture_mouse_position_only_when_changed"])){
       this.perXPrev = perX;
       this.perYPrev = perY;

@@ -1,7 +1,7 @@
 import StateMachine from "./StateMachine";
 import state_loading from "../states/state_loading";
 import state_fixation from "../states/state_fixation";
-import state_trial from "../states/state_trial";
+import state_trial from "../states/state_trial_3";
 import state_results from "../states/state_results";
 import state_finish from "../states/state_finish";
 import configParams from "../../config/parameters_config";
@@ -28,6 +28,7 @@ export default class Game {
     this.cursor.style.cursor = "none";
     this.cursor.style.pointerEvents = "none";
     this.cursor.style.border = configParams["mouse_border"];
+    this.cursor.style.opacity = "0";
     this.stage.appendChild(this.cursor);
 
     this.states = {

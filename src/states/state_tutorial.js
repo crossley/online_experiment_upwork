@@ -69,7 +69,6 @@ state_tutorial.onLoadFinish = function(){
 
   })
 
-
 };
 
 state_tutorial.updateInstruction = function(_newText, wait = 0, hold = 0, spaceToFulfill = true){

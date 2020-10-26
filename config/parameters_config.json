@@ -18,7 +18,7 @@
   "clear_other_stimuli": false,
   "is_stimuli_space_circular": true,
   "should_stimuli_not_exceed_screen": true,
-  "instruction_banner_position": "center",
+  "instruction_banner_position": "top",
   "are_stimuli_positions_fixed": true,
   "stimuli_container_fixed_size": 550,
 
@@ -33,7 +33,7 @@
   "mouse_position_capture_rate": "15",
   "capture_mouse_position_only_when_changed": true,
 
-  "no_animation_at_all": false,
+  "no_animation_at_all": true,
 
   "do_animate_fixation_instruction": true,
   "do_animate_fixation_pointer": true,
@@ -46,9 +46,9 @@
   "do_animate_feedback": true,
 
   "tutorial": {
-    "no_tutorial": false,
-    "number_of_visual_search_practice_trials": 3,
-    "number_of_full_practice_trials": 3,
+    "no_tutorial": true,
+    "number_of_visual_search_practice_trials": 0,
+    "number_of_full_practice_trials": 0,
 
     "delay_before_highlighting_correct_image": 100,
     "delay_before_next_image_only_example": 300,

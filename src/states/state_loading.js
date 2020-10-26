@@ -23,7 +23,8 @@ state_loading.update = function(){
 };
 
 state_loading.onLoadFinish = function(){
-  this.game.setState("fixation");
+  // this.game.setState("fixation");
+  this.game.setState("trial");
 };
 
 export default state_loading;

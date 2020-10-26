@@ -43,7 +43,7 @@ export default class Loader {
       img.addEventListener('load', () => this.proceedLoadingQueue());
       break;
 
-      default: 
+      default:
       this.proceedLoadingQueue();
       break;
     }
